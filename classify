@@ -36,7 +36,7 @@ $nb->train();
 
 open(O1, ">classify-good");
 open(O2, ">classify-fail");
-open(I, "l");
+open(I, $ARGV[0]);
 while(<I>) {
 	print $_;
 	my $a=splitline($_);

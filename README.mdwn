@@ -4,4 +4,9 @@ the "nameabuse" program which outputs objects with the name and a selected list 
 
 Then a perl script with Naive Bayes needs to be run on that data to classify the objects.
 
+	./nameabuse -i osm.pdf >tobeclassified
+	./classify tobeclassified
 
+
+`classify` will read `train-good` and `train-fail` and then classify all rows in named file and output
+them to `classify-fail` and `classify-good`.
