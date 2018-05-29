@@ -1,0 +1,11 @@
+.*
+!.gitignore
+CMakeCache.txt
+CMakeFiles
+Makefile
+classify-fail
+classify-good
+cmake_install.cmake
+compile_commands.json
+nameabuse
+

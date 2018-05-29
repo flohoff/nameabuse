@@ -1,0 +1,62 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Algorithm::NaiveBayes;
+use Data::Dumper;
+
+sub splitline {
+	my ($line) = @_;
+	chomp($line);
+
+	my $a;
+	$line =~ s/^\d+\s+//;
+	while(42) {
+		last if ($line !~ s/(\w+)="([^"])+"\s*//);
+		$a->{$1}=$2;
+	}
+	return $a;
+}
+
+sub readfile {
+	my ($nb, $file, $label) = @_;
+	open(I, $file);
+	while(<I>) {
+		next if (/^\s*$/);
+		my $a=splitline($_);
+		$nb->add_instance(attributes => $a, label => $label);
+	}
+	close(I);
+}
+
+my $nb=Algorithm::NaiveBayes->new;
+
+readfile($nb, "train-good", [ "good" ]);
+readfile($nb, "train-fail", [ "fail" ]);
+$nb->train();
+
+open(O1, ">classify-good");
+open(O2, ">classify-fail");
+open(I, "l");
+while(<I>) {
+	print $_;
+	my $a=splitline($_);
+	my $result = $nb->predict(attributes => $a);
+
+	print Dumper($result);
+
+	my $res=$result->{good}/$result->{fail};
+	if ($res > 1) {
+		print O1 $_;
+	} else {
+		print O2 $_;
+	}
+
+# 	if ($result->{good} gt $result->{fail}) {
+#		print O1 $_;
+# 	}
+# 	if ($result->{fail} gt $result->{good}) {
+# 		print O2 $_;
+# 	}
+}
+close(O1);
+close(O2);
