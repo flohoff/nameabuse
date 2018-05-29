@@ -1,0 +1,7 @@
+
+The goal for these tools is to find "name tag abuse" in OSM Data. You will need libosmium to run
+the "nameabuse" program which outputs objects with the name and a selected list of tags.
+
+Then a perl script with Naive Bayes needs to be run on that data to classify the objects.
+
+
